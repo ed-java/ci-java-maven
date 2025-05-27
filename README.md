@@ -4,3 +4,4 @@ Este é um exemplo simples de aplicação Java com testes automatizados e pipeli
 # ci-java-maven
 # ci-java-maven
 # ci-java-maven
+# Atualização forçada do pipeline
