@@ -6,19 +6,18 @@ phases:
       java: corretto21
   pre_build:
     commands:
-      - echo Iniciando build em `date`
+      - echo "Iniciando build em $(date)"
       - mvn clean
   build:
     commands:
-      - echo Build iniciado em `date`
+      - echo "Build iniciado em $(date)"
       - mvn package
   post_build:
     commands:
-      - echo Build completo em `date
-      - ls -lh target/`
+      - echo "Build completo em $(date)"
+      - ls -lh target/
 
 artifacts:
-  base-directory: target
   files:
     - appspec.yml
     - scripts/**/*
