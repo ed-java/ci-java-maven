@@ -1,3 +1,4 @@
 #!/bin/bash
 cd /home/ubuntu/app
-mvn clean package
+cp target/ci-java-maven-1.0-SNAPSHOT.jar app.jar
+# mvn clean package
