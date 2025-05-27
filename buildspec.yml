@@ -14,13 +14,15 @@ phases:
       - mvn package
   post_build:
     commands:
-      - echo Build completo em `date`
+      - echo Build completo em `date
+      - ls -lh target/`
 
 artifacts:
+  base-directory: target
   files:
     - appspec.yml
     - scripts/**/*
-    - target/*.jar
+    - target/ci-java-maven-1.0-SNAPSHOT.jar
     - pom.xml
     - src/**/*
   discard-paths: no
