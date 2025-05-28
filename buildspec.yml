@@ -1,27 +1,26 @@
 version: 0.2
 
 phases:
-  install:
-    runtime-versions:
-      java: corretto21
   pre_build:
     commands:
-      - echo "Iniciando build em $(date)"
-      - mvn clean
+      - echo Iniciando pre_build em `date`
+      - echo Logando no Amazon ECR...
+      - aws --version
+      - $(aws ecr get-login --region sa-east-1 --no-include-email)
+      - REPO_URI=098506812779.dkr.ecr.sa-east-1.amazonaws.com/ci-java-app
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
     commands:
-      - echo "Build iniciado em $(date)"
-      - mvn package
+      - echo Build da imagem Docker iniciado em `date`
+      - docker build -t $REPO_URI:$IMAGE_TAG .
+      - docker tag $REPO_URI:$IMAGE_TAG $REPO_URI:latest
   post_build:
     commands:
-      - echo "Build completo em $(date)"
-      - ls -lh target/
+      - echo Pushing imagem para ECR...
+      - docker push $REPO_URI:$IMAGE_TAG
+      - docker push $REPO_URI:latest
+      - echo Build e push concluídos em `date`
 
 artifacts:
-  files:
-    - appspec.yml
-    - scripts/**/*
-    - target/ci-java-maven-1.0-SNAPSHOT.jar
-    - pom.xml
-    - src/**/*
-  discard-paths: no
+  files: []
